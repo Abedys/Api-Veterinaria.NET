@@ -1,4 +1,5 @@
 
+using ApiVeterinaria.Handlers;
 using Microsoft.EntityFrameworkCore;
 using Veterinaria.Core.Data;
 using Veterinaria.Core.Repository;
@@ -23,17 +24,15 @@ namespace ApiVeterinaria
             {
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStringSQLserver"));
 
-            }); 
+            });
             #endregion
 
 
-            //infraestrucuture
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); //inyeccion de la unidad de trabajo
-            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); //inyeccion del patron Repository
+            //Esta region es para inyectar las dependencias de los servicios, repositorios y unit of work
+            #region Inyection
+            DependecyInyectionHandler.DependecyInyectionConfig(builder.Services);
 
-            //Domain
-            builder.Services.AddScoped<IRolServices, RolServices>();
-
+            #endregion
 
 
             // Add services to the container.
