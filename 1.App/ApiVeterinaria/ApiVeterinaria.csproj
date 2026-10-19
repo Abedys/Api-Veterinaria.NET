@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Veterinaria.Domain\Veterinaria.Domain.csproj" />
+    <ProjectReference Include="..\..\2.Domain\Veterinaria.Domain\Veterinaria.Domain.csproj" />
   </ItemGroup>
 
 </Project>

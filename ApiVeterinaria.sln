@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiVeterinaria", "ApiVeterinaria\ApiVeterinaria.csproj", "{437B1395-4F7A-4939-9211-92AE5F827EE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiVeterinaria", "1.App\ApiVeterinaria\ApiVeterinaria.csproj", "{437B1395-4F7A-4939-9211-92AE5F827EE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veterinaria.Domain", "Veterinaria.Domain\Veterinaria.Domain.csproj", "{F076D7FF-0035-4837-B950-9D4F4CC8AE76}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veterinaria.Domain", "2.Domain\Veterinaria.Domain\Veterinaria.Domain.csproj", "{F076D7FF-0035-4837-B950-9D4F4CC8AE76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veterinaria.Common", "Veterinaria.Common\Veterinaria.Common.csproj", "{CF4E65DC-BCAB-4009-AA1D-0222C4CBD060}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veterinaria.Common", "4.Common\Veterinaria.Common\Veterinaria.Common.csproj", "{CF4E65DC-BCAB-4009-AA1D-0222C4CBD060}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veterinaria.Core", "Veterinaria.Core\Veterinaria.Core.csproj", "{9522F526-7E7C-49AA-A5FE-F08D75E1420F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veterinaria.Core", "3.Infrastructure\Veterinaria.Core\Veterinaria.Core.csproj", "{9522F526-7E7C-49AA-A5FE-F08D75E1420F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veterinaria.Entity", "Veterinaria.Entity\Veterinaria.Entity.csproj", "{11DDB8CC-677A-4AFA-BCD6-0D564AF07BCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veterinaria.Entity", "3.Infrastructure\Veterinaria.Entity\Veterinaria.Entity.csproj", "{11DDB8CC-677A-4AFA-BCD6-0D564AF07BCF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.App", "1.App", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Domain", "2.Domain", "{E9D8E079-3835-42D2-9682-D938A3DEE33C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Infrestruture", "3.Infrestruture", "{AAA9DFC7-568E-4475-9594-82BB8B1680EF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Infrastructure", "3.Infrastructure", "{AAA9DFC7-568E-4475-9594-82BB8B1680EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Common", "4.Common", "{C8BBD79A-78C9-44B6-8CFB-BAF7C3A5F516}"
 EndProject

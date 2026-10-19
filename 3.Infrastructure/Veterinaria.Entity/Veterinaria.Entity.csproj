@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Veterinaria.Common\Veterinaria.Common.csproj" />
+    <ProjectReference Include="..\..\4.Common\Veterinaria.Common\Veterinaria.Common.csproj" />
   </ItemGroup>
 
 </Project>
