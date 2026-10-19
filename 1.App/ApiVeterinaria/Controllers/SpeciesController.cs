@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ApiVeterinaria.Handlers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Veterinaria.Domain.services.Interface;
 using Veterinaria.Entity.DTO.Species;
@@ -7,6 +8,7 @@ namespace ApiVeterinaria.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [TypeFilter(typeof(CustomExceptionHandler))]
     public class SpeciesController : ControllerBase
     {
 

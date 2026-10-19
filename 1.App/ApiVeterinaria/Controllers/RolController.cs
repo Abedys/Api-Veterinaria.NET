@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ApiVeterinaria.Handlers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Veterinaria.Domain.services.Interface;
 
@@ -6,6 +7,7 @@ namespace ApiVeterinaria.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [TypeFilter(typeof(CustomExceptionHandler))]
     public class RolController : ControllerBase
     {
         private readonly IRolServices _rolServices;
