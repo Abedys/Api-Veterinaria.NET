@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Veterinaria.Common.Exceptions;
+using Veterinaria.Common.Resources;
 using Veterinaria.Core.UnitWork.interfacce;
 using Veterinaria.Domain.services.Interface;
 using Veterinaria.Entity.DTO.Breed;
@@ -30,7 +32,8 @@ namespace Veterinaria.Domain.services
 
             if (entity == null)
             {
-                throw new Exception("Raza a procesar no existe");
+                string message = string.Format(GeneralMessages.ItemNoFound, "Raza");
+                throw new BusinessException(message);
             }
             return entity;
         }
