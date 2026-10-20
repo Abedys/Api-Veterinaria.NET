@@ -17,7 +17,7 @@ namespace Veterinaria.Entity.Models.Veterinaria
 
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
 
         public List<BreedEntity> BreedEntities { get; set; } = new List<BreedEntity>();

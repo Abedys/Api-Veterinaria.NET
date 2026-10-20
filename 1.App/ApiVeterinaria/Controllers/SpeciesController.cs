@@ -42,7 +42,7 @@ namespace ApiVeterinaria.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromRoute] int specieId)
+        public async Task<IActionResult> Delete( int specieId)
         {
             bool result = await _speciesServices.DeleteSpecie(specieId);
             return Ok(result);
