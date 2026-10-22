@@ -25,6 +25,7 @@ namespace ApiVeterinaria.Handlers
             //Domain
             services.AddScoped<IRolServices, RolServices>();
             services.AddScoped<ISpeciesServices, SpeciesServices>();
+            services.AddScoped<IBreedServices, BreedServices>();
         }
 
 

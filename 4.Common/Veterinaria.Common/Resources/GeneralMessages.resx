@@ -136,8 +136,7 @@ Error401</comment>
   </data>
   <data name="ItemDeleted" xml:space="preserve">
     <value>Registro eliminado satisfactoriamente.</value>
-    <comment>Confirmación de eliminación exitosa.
-ItemInserted</comment>
+    <comment>Confirmación de eliminación exitosa.</comment>
   </data>
   <data name="ItemInserted" xml:space="preserve">
     <value>Registro guardado satisfactoriamente.</value>
