@@ -1,15 +1,11 @@
 
 using ApiVeterinaria.Handlers;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
+using Scalar.AspNetCore;
 using Veterinaria.Core.Data;
-using Veterinaria.Core.Repository;
-using Veterinaria.Core.Repository.Interface;
-using Veterinaria.Core.UnitWork;
-using Veterinaria.Core.UnitWork.interfacce;
-using Veterinaria.Domain.services;
-using Veterinaria.Domain.services.Interface;
 using Veterinaria.Entity.DTO;
 
 namespace ApiVeterinaria
@@ -48,7 +44,18 @@ namespace ApiVeterinaria
 
             // Add services to the container.
 
+            // nginx reenvía la IP y el protocolo originales. Sin vaciar las listas, ASP.NET ignora esos
+            // headers porque el proxy de Docker no está entre las redes que confía por defecto.
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                options.KnownIPNetworks.Clear();
+                options.KnownProxies.Clear();
+            });
 
+            // El healthcheck del compose llama a /health. Revisa que el proceso responda y que la base abra.
+            builder.Services.AddHealthChecks()
+                .AddDbContextCheck<DataContext>();
 
             builder.Services.AddControllers(options =>
             {
@@ -77,37 +84,45 @@ namespace ApiVeterinaria
             });
 
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(options =>
+            // El documento OpenAPI sale en /openapi/v1.json. Scalar es la interfaz que lo muestra.
+            builder.Services.AddOpenApi(options =>
             {
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                options.AddDocumentTransformer((document, context, cancellationToken) =>
                 {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "bearer",
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Description = "Introduce tu token JWT."
-                });
-
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+                    document.Info = new OpenApiInfo
                     {
-                        new OpenApiSecurityScheme
+                        Title = "Veterinaria",
+                        Version = "v1",
+                        Description = "Api veterinaria",
+                        Contact = new OpenApiContact
                         {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
-                });
-                            });
+                            Name = "Veterinaria",
+                            Email = "admin@veterinaria.com",
+                            Url = new Uri("https://www.lab.com"),
+                        }
+                    };
 
-           
+                    // Esquema HTTP Bearer: en Scalar se pega solo el token y la interfaz agrega el prefijo.
+                    document.Components ??= new OpenApiComponents();
+                    document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
+                    document.Components.SecuritySchemes["Bearer"] = new OpenApiSecurityScheme
+                    {
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "bearer",
+                        BearerFormat = "JWT",
+                        In = ParameterLocation.Header,
+                        Description = "Pega solo el token JWT. Scalar agrega el prefijo Bearer."
+                    };
+
+                    document.Security ??= [];
+                    document.Security.Add(new OpenApiSecurityRequirement
+                    {
+                        [new OpenApiSecuritySchemeReference("Bearer", document)] = []
+                    });
+
+                    return Task.CompletedTask;
+                });
+            });
 
             var app = builder.Build();
 
@@ -144,20 +159,21 @@ namespace ApiVeterinaria
             });
 
             // Configure the HTTP request pipeline.
+            // En Docker el entorno es Development, así que Scalar queda en http://localhost:8080/scalar/v1.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.MapOpenApi();
+                app.MapScalarApiReference();
             }
-
-            app.UseHttpsRedirection();
-
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
 
-          
+            // Sin autenticación: el healthcheck de Docker no envía token.
+            app.MapHealthChecks("/health").AllowAnonymous();
+            // GET /instance. Repetirlo alterna entre las réplicas cuando hay más de una.
+            app.MapGet("/instance", () => Results.Ok(new { instance = instanceName }))
+                .AllowAnonymous();
 
             app.MapControllers();
 
