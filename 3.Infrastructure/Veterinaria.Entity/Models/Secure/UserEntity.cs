@@ -33,6 +33,12 @@ namespace Veterinaria.Entity.Models.Secure
         [Required] 
         public string Password { get; set; } = null!; //esto indica que no va ser nulo el campo
 
+        //NotMapped es para decirle que no va ser mapeado a la base de datos
+        [NotMapped]
+        //FullName es para concatenar el nombre y apellido del usuario
+        public string FullName { get { return $"{this.Name} {this.LastName}"; } }
+
+
         //De esta manera estamos diciendo que esta referenciada con otra tabla
         public virtual List<RolUserEntity> RolUserEntities { get; set; } = new List<RolUserEntity>(); //referencia de User - Rol
 

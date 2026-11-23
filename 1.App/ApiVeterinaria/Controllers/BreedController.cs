@@ -1,4 +1,5 @@
 ﻿using ApiVeterinaria.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Veterinaria.Common.Resources;
@@ -12,7 +13,7 @@ namespace ApiVeterinaria.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [TypeFilter(typeof(CustomExceptionHandler))]
+    [Authorize]
     public class BreedController : ControllerBase
     {
         private readonly IBreedServices _breedServices;
