@@ -40,32 +40,56 @@ namespace Veterinaria.Core.Data
         public DbSet<SpeciesEntity> SpeciesEntities { get; set; }
 
 
+
+
+        #endregion
+
+        #region Seed
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // ROLES PREDETERMINADOS
-            modelBuilder.Entity<RolEntity>().HasData(
-                new RolEntity
-                {
-                    IdRol = 1,
-                    Rol = "Admin"
-                },
-                new RolEntity
-                {
-                    IdRol = 2,
-                    Rol = "Usuario"
-                }
-            );
 
-            // Evitar que se repita la misma relación usuario-rol
             modelBuilder.Entity<RolUserEntity>()
-                .HasIndex(ru => new { ru.IdUser, ru.IdRol })
-                .IsUnique();
+            .HasIndex(ru => new { ru.IdUser, ru.IdRol })
+            .IsUnique();
+
         }
 
+        #endregion
 
 
+
+        #region HasData
+
+        //FORMA DE HACERLO CON HASDATA
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+
+        //    // ROLES PREDETERMINADOS
+        //    modelBuilder.Entity<RolEntity>().HasData(
+        //        new RolEntity
+        //        {
+        //            IdRol = 1,
+        //            Rol = "Admin"
+        //        },
+        //        new RolEntity
+        //        {
+        //            IdRol = 2,
+        //            Rol = "Usuario"
+        //        }
+        //    );
+
+        //    // Evitar que se repita la misma relación usuario-rol
+        //    modelBuilder.Entity<RolUserEntity>()
+        //        .HasIndex(ru => new { ru.IdUser, ru.IdRol })
+        //        .IsUnique();
+        //}
+
+
+        //FORMA DE HACERLO CON EL METODO SEED
         #endregion
 
 

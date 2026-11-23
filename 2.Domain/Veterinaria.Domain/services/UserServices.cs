@@ -41,7 +41,7 @@ namespace Veterinaria.Domain.services
             {
                 IdUser = x.IdUser,
                 Name = x.Name,
-                LastName = x.LastName,
+                LastName = x.LastName ?? string.Empty, //string.Empty es para evitar que sea null
                 Email = x.Email
             }).ToList();
             return user;
@@ -61,6 +61,13 @@ namespace Veterinaria.Domain.services
                 Email = userAdd.Email,
                 Password = EncryptProvider.Sha256(userAdd.Password),
             };
+
+           entity.RolUserEntities.
+                Add(new RolUserEntity()
+                {
+                    RolEntity = await _unitOfWork.RolRepository.FirstOrDefaultAsync(x => x.Rol == "Usuario")
+                    ?? throw new BusinessException($"Rol predeterminado no encontrado en la base de datos. Por favor, contacte al administrador del sistema.")
+                });
 
             _unitOfWork.UserRepository.Insert(entity);
             return await _unitOfWork.SaveAsync() > 0;

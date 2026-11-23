@@ -39,6 +39,7 @@ namespace Veterinaria.Entity.Models.Secure
         public string FullName { get { return $"{this.Name} {this.LastName}"; } }
 
 
+
         //De esta manera estamos diciendo que esta referenciada con otra tabla
         public virtual List<RolUserEntity> RolUserEntities { get; set; } = new List<RolUserEntity>(); //referencia de User - Rol
 

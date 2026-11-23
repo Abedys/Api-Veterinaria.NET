@@ -6,13 +6,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Scalar.AspNetCore;
 using Veterinaria.Core.Data;
+using Veterinaria.Core.Data.Seeder;
+
 using Veterinaria.Entity.DTO;
 
 namespace ApiVeterinaria
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -134,7 +136,13 @@ namespace ApiVeterinaria
             {
                 using var scope = app.Services.CreateScope();
                 DataContext db = scope.ServiceProvider.GetRequiredService<DataContext>();
-                db.Database.Migrate();
+                await db.Database.MigrateAsync();
+
+                //instanciamos el metodo orquestador para agregar los registros predeterminados a la base de datos
+                //Datos predeterminados para la base de datos
+                await DataBaseSeeder.SeedAsync(db, app.Configuration);
+
+
                 if (app.Configuration.GetValue<bool>("MIGRATE_ONLY"))
                     return;
             }
